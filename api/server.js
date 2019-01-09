@@ -6,6 +6,7 @@ const cors = require('cors');
 const postDb = require('../data/helpers/postDb.js')
 // const userDb = require('../data/helpers/userDb.js')
 const usersFunctions = require('./users')
+const postFunctions = require('./posts');
 
 const server = express();
 
@@ -26,30 +27,34 @@ server.use(cors());
 //routes
 //users
 server.get('/users', (req, res) => {
-    usersFunctions.userGet(req, res);
+    usersFunctions.Get(req, res);
 })
 server.get('/users/:id', (req,res) => {
-    usersFunctions.userGet(req,res);
+    usersFunctions.Get(req,res);
 })
 server.post('/users', userToUpperCase, (req, res) => {
-    usersFunctions.userPost(req, res)
+    usersFunctions.Post(req, res)
 });
 server.delete('/users/:id', (req, res) =>{
-    usersFunctions.userDelete(req, res);
+    usersFunctions.Delete(req, res);
 });
 server.put('/users/:id', userToUpperCase, (req, res) => {
-    usersFunctions.userPut(req,res)
+    usersFunctions.Put(req,res)
 });
 
 //posts
 server.get('/posts', (req, res) =>{
-    postDb.get()
-    .then(posts => {
-        res.status(200).json(posts);
-    })
-    .catch(err => {
-        res.status(500).json({msg:"cant find posts", error: err})
-    })
+    postFunctions.Get(req, res);
 });
+
+server.get('/posts/:id', (req, res) =>{
+    postFunctions.Get(req,res);
+})
+server.post('/posts', (req, res) => {
+    postFunctions.Post(req,res);
+})
+server.delete('/posts/:id', (req, res) => {
+    postFunctions.Delete(req, res);
+})
 
 module.exports = server;
