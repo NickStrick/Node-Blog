@@ -9,8 +9,13 @@ const usersFunctions = require('./users')
 
 const server = express();
 
-//functions
-
+//custom middleware
+function userToUpperCase(req, res, next) {
+    let arr = req.body.name.split('');
+    arr[0] = arr[0].toUpperCase();
+    req.body.name = arr.join('');
+    next();
+}
 
 //middleware
 server.use(morgan('short'));
@@ -26,13 +31,15 @@ server.get('/users', (req, res) => {
 server.get('/users/:id', (req,res) => {
     usersFunctions.userGet(req,res);
 })
-server.post('/users', (req, res) => {
+server.post('/users', userToUpperCase, (req, res) => {
     usersFunctions.userPost(req, res)
 });
 server.delete('/users/:id', (req, res) =>{
     usersFunctions.userDelete(req, res);
-})
-
+});
+server.put('/users/:id', userToUpperCase, (req, res) => {
+    usersFunctions.userPut(req,res)
+});
 
 //posts
 server.get('/posts', (req, res) =>{

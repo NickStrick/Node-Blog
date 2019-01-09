@@ -2,10 +2,8 @@ module.exports = {
     userGet,
     userPost,
     userDelete,
-   
+    userPut,
 }
-
-//middleware
 
 
 //CRUD operations
@@ -40,5 +38,15 @@ function userDelete(req, res) {
         res.status(202).json(count);
     })
     .catch(err => res.status(500).json({msg: "the post could not be removed", error: err}))
+}
+
+function userPut(req, res) {
+    const {id} = req.params;
+    const changes = req.body;
+
+    userDb.update(id, changes)
+    .then(result => {
+        res.status(200).json(result);
+    })
 }
 
