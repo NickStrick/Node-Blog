@@ -1,14 +1,42 @@
-module.exports = {
-    Get,
-    Post,
-    Delete,
-    Put,
+const express = require('express');
+const router = express.Router();
+
+module.exports = router;
+
+const userDb = require('../data/helpers/userDb.js')
+
+function userToUpperCase(req, res, next) {
+    let arr = req.body.name.split('');
+    arr[0] = arr[0].toUpperCase();
+    req.body.name = arr.join('');
+    next();
 }
 
 
-//CRUD operations
-const userDb = require('../data/helpers/userDb.js')
+router.get('/', (req, res) => {
+    Get(req, res);
+})
+router.get('/:id', (req,res) => {
+    Get(req,res);
+})
+router.post('/', userToUpperCase, (req, res) => {
+    Post(req, res)
+});
+router.delete('/:id', (req, res) =>{
+    Delete(req, res);
+});
+router.put('/:id', userToUpperCase, (req, res) => {
+    Put(req,res)
+});
+router.get('/:id/posts', (req,res) => {
+    userDb.getUserPosts(req.params.id)
+        .then(posts =>{
+            res.status(200).json(posts)
+        })
+})
 
+
+//CRUD operations
 function Get(req, res) {
     const id = req.params.id;
     userDb.get(id)
