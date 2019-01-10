@@ -16,7 +16,7 @@ function Get(req, res) {
         res.status(200).json(posts);
     })
     .catch(err => {
-        res.status(500).json({msg:"cant find users", error: err})
+        res.status(500).json({msg:"cant find users", err})
     })
 }
 

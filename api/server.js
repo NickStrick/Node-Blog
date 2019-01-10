@@ -3,8 +3,6 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 
-const postDb = require('../data/helpers/postDb.js')
-// const userDb = require('../data/helpers/userDb.js')
 const usersFunctions = require('./users')
 const postFunctions = require('./posts');
 
@@ -55,6 +53,9 @@ server.post('/posts', (req, res) => {
 })
 server.delete('/posts/:id', (req, res) => {
     postFunctions.Delete(req, res);
+})
+server.put('/posts/:id', (req, res) => {
+    postFunctions.Put(req, res);
 })
 
 module.exports = server;
