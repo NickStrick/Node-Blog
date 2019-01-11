@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import {NavLink} from 'react-router-dom';
 
 
 class User extends Component {
     state = {
-        user: { name:'b'}
+        user: {}
     }
 
     componentDidMount(){
-        let id =this.props.match.params.id;
-        console.log(id)
-        console.log(this.props.users);
+        axios.get(`http://localhost:5000/users/${this.props.match.params.id}`)
+            .then(response => {
+            console.log(response)
+            this.setState(() => ({user: response.data}));
+            })
     
         
     }
 
-  render() { console.log(this.props.users);
+  render() {
     return (
       <div >
         <h1>{this.state.user.name}</h1>
-        
+        <p>id# : {this.state.user.id}</p>
+        <NavLink to='/users'>Return</NavLink>
       </div>
     );
   }

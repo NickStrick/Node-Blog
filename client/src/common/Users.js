@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
+import {NavLink} from 'react-router-dom';
 
 
 class Users extends Component {
 
   render() { console.log(this.props.users)
     return (
-      <div >
+      <div>
         
         {this.props.users.map(users => (
-          <div>
+          <NavLink to ={`/users/${users.id}`}>
             <h1>user# : {users.id}</h1>
             <h3>name : {users.name}</h3>
             
-          </div>
+          </NavLink>
         ))}
       </div>
     );
