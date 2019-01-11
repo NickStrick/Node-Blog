@@ -5,12 +5,7 @@ module.exports = router;
 
 const userDb = require('../data/helpers/userDb.js')
 
-function userToUpperCase(req, res, next) {
-    let arr = req.body.name.split('');
-    arr[0] = arr[0].toUpperCase();
-    req.body.name = arr.join('');
-    next();
-}
+const userToUpperCase = require('./middleware/customMiddleware.js');
 
 
 router.get('/', (req, res) => {
